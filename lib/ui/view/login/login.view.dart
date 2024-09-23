@@ -19,26 +19,22 @@ class _LoginViewState extends State<LoginView> {
       backgroundColor: Color(R.colors.primary),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             _buildSpace(),
             _buildLogo(),
             _buildHeader(),
             _buildPhone(),
             _buildPassword(),
-            _buildButton()
-          ].addBetween(const SizedBox(
-            height: 16,
-          )),
+            _buildButton(),
+            _buildSignUp()
+          ].addBetween(const SizedBox(height: 24)),
         ),
       ),
     );
   }
 
-  Widget _buildSpace() => const SizedBox(
-        height: 128,
-      );
+  Widget _buildSpace() => const SizedBox(height: 64);
 
   Widget _buildLogo() => const AppLogo();
 
@@ -59,9 +55,7 @@ class _LoginViewState extends State<LoginView> {
           style: TextStyle(color: Colors.white),
         ),
         const TextField(),
-      ].addBetween(const SizedBox(
-        height: 8,
-      )),
+      ].addBetween(const SizedBox(height: 12)),
     );
   }
 
@@ -91,25 +85,43 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
         ),
-      ].addBetween(
-        const SizedBox(
-          height: 8,
-        ),
-      ),
+      ].addBetween(const SizedBox(height: 12)),
     );
   }
+
   Widget _buildButton() {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
         onPressed: () {},
         style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(
-            Color(R.colors.primary),
+          padding:
+              const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 16)),
+          backgroundColor: WidgetStatePropertyAll(Color(R.colors.secondary)),
+        ),
+        child: const Text(
+          'Login',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUp() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: const Text(
+            'Sign up',
+            style: TextStyle(
+              color: Colors.white,
+              decoration: TextDecoration.underline,
+            ),
           ),
         ),
-        child: const Text('Login'),
-      ),
+      ],
     );
   }
 }
