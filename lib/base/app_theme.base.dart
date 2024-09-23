@@ -31,9 +31,10 @@ abstract class BaseAppTheme {
       textButtonTheme: textButtonThemeData(brightness),
       dialogTheme: dialogTheme(brightness),
       tabBarTheme: tabBarTheme(brightness),
+      textSelectionTheme: textSelectionThemeData(brightness)
     );
   }
-
+  TextSelectionThemeData textSelectionThemeData(Brightness brightness);
   String fontFamily(Brightness brightness);
 
   TextTheme textTheme(Brightness brightness);

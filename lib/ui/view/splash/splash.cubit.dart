@@ -3,5 +3,4 @@ import 'package:skeleton/ui/view/splash/splash.state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(const SplashState());
-
 }

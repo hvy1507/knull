@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skeleton/base/app_theme.base.dart';
+import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/utils/extension/color.ext.dart';
 
 class AppTheme extends BaseAppTheme {
@@ -11,11 +12,12 @@ class AppTheme extends BaseAppTheme {
   static final AppTheme _instance = AppTheme._();
 
   @override
-  String fontFamily(Brightness brightness) => 'Font Family';
+  String fontFamily(Brightness brightness) => 'Orbitron';
 
   @override
   TextTheme textTheme(Brightness brightness) {
     const def = TextStyle(
+      color: Colors.white,
       fontSize: 14,
       fontWeight: FontWeight.w400,
     );
@@ -202,26 +204,38 @@ class AppTheme extends BaseAppTheme {
   }
 
   @override
+  TextSelectionThemeData textSelectionThemeData(Brightness brightness) {
+    return const TextSelectionThemeData(
+      cursorColor: Colors.white,
+    );
+  }
+
+  @override
   InputDecorationTheme inputDecorationTheme(Brightness brightness) {
     final defaultBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(
-        color: colorSchemes(brightness).disabled,
-      ),
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: Colors.white70),
     );
     return InputDecorationTheme(
       hintStyle: TextStyle(
         color: colorSchemes(brightness).disabled,
       ),
+      errorBorder: defaultBorder.copyWith(
+        borderSide: BorderSide(color: Color(R.colors.secondary)),
+      ),
       border: defaultBorder,
-      enabledBorder: defaultBorder,
-      disabledBorder: defaultBorder.copyWith(
+      focusedBorder: defaultBorder.copyWith(
         borderSide: defaultBorder.borderSide.copyWith(
-          color: defaultBorder.borderSide.color.withOpacity(.5),
+          color: Colors.white,
+          width: 3,
         ),
       ),
+      enabledBorder: defaultBorder,
+      disabledBorder: defaultBorder.copyWith(
+        borderSide: defaultBorder.borderSide.copyWith(color: Colors.yellow),
+      ),
       filled: true,
-      fillColor: colorSchemes(brightness).surface,
+      fillColor: Color(R.colors.primary),
     );
   }
 
