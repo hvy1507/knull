@@ -1,6 +1,6 @@
-# SKELETON
+# KNULL
 
-A skeleton for Flutter Project.
+A project about ... written by me , applied my knowledge and best practice
 
 # Features
 
