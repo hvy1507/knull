@@ -18,7 +18,7 @@ class AppRoute {
 
 
   static GoRouter configurations = GoRouter(
-    initialLocation: login,
+    initialLocation: splash,
     routes: [
       GoRoute(
         path: splash,

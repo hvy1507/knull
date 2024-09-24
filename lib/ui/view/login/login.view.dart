@@ -8,6 +8,7 @@ import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/login/login.cubit.dart';
 import 'package:skeleton/ui/view/login/login.state.dart';
 import 'package:skeleton/ui/widget/app_logo.dart';
+import 'package:skeleton/ui/widget/image_view.dart';
 import 'package:skeleton/utils/extension/list.ext.dart';
 
 class LoginView extends StatefulWidget {
@@ -30,14 +31,6 @@ class _LoginViewState extends State<LoginView> {
         padding: const EdgeInsets.all(24),
         child: BlocConsumer<LoginCubit, LoginState>(
           builder: (_, state) {
-            if (state.status == Status.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state.status == Status.error) {
-              return const Center(child: Text('Something went wrong'));
-            }
             return ListView(
               children: [
                 _buildSpace(),
@@ -50,8 +43,8 @@ class _LoginViewState extends State<LoginView> {
               ].addBetween(const SizedBox(height: 24)),
             );
           },
-          listener: (_,state){
-            if (state.status == Status.loaded){
+          listener: (_, state) {
+            if (state.status == Status.loaded) {
               context.go(AppRoute.home);
             }
           },
@@ -124,9 +117,12 @@ class _LoginViewState extends State<LoginView> {
       child: FilledButton(
         onPressed: cubit.login,
         style: ButtonStyle(
-          padding:
-              const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 16)),
-          backgroundColor: WidgetStatePropertyAll(Color(R.colors.secondary)),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(vertical: 16),
+          ),
+          backgroundColor: WidgetStatePropertyAll(
+            Color(R.colors.secondary),
+          ),
         ),
         child: const Text(
           'Login',
@@ -159,6 +155,60 @@ class _LoginViewState extends State<LoginView> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ErrorDialog extends StatelessWidget {
+  const ErrorDialog({
+    super.key,
+    required this.message,
+  });
+
+  final String message;
+
+  static Future<void> show(
+    BuildContext context, {
+    required String message,
+  }) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return ErrorDialog(
+          message: message,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Color(R.colors.primary),
+      icon: ImageView.asset(
+        R.vectors.error,
+        width: 64,
+        height: 64,
+      ),
+      title: Text(
+        message,
+        style: const TextStyle(fontSize: 16),
+      ),
+      actions: [
+        FilledButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color(R.colors.secondary),
+            ),
+          ),
+          onPressed: context.pop,
+          child: const Text(
+            'Close',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }
