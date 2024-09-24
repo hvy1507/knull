@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton/constant/status.k.dart';
-import 'package:skeleton/ui/view/login/login.state.dart';
+import 'package:skeleton/ui/view/register/register.state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(const LoginState()) {
+class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit() : super(const RegisterState()) {
     _listen();
   }
 
@@ -15,7 +15,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> _listen() async {
     email.addListener(() {
       emit(state.copyWith(
-        phoneNumber: email.text,
+        email: email.text,
       ));
     });
     password.addListener(() {
@@ -25,11 +25,11 @@ class LoginCubit extends Cubit<LoginState> {
     });
   }
 
-  Future<void> login() async {
+  Future<void> register() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     emit(state.copyWith(status: Status.loading));
     try {
-      await auth.signInWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
