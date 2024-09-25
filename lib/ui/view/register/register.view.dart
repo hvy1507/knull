@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/constant/password_validation.dart';
 import 'package:skeleton/constant/status.k.dart';
-import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/register/register.cubit.dart';
 import 'package:skeleton/ui/view/register/register.state.dart';
 import 'package:skeleton/ui/widget/app_logo.dart';
+import 'package:skeleton/utils/extension/build_context.dart';
 import 'package:skeleton/utils/extension/list.ext.dart';
 
 class RegisterView extends StatefulWidget {
@@ -28,7 +28,6 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Color(R.colors.primary),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: BlocBuilder<RegisterCubit, RegisterState>(
@@ -41,7 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
                 _buildSpace(),
                 _buildLogo(),
                 _buildHeader(),
-                _buildEmail(),
+                _buildEmail(state),
                 _buildPassword(),
                 if (state.isValid) _buildConfirmedPassword(),
                 if (!state.isValid) _buildValidationPassword(),
@@ -59,24 +58,26 @@ class _RegisterViewState extends State<RegisterView> {
 
   Widget _buildLogo() => const AppLogo();
 
-  Widget _buildHeader() => const Text(
+  Widget _buildHeader() => Text(
         'Create a new account',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
+        style: context.textTheme.titleLarge,
       );
 
-  Widget _buildEmail() {
+  Widget _buildEmail(RegisterState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Email',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleMedium,
         ),
         TextField(
           controller: cubit.email,
+          decoration: InputDecoration(
+            errorText: state.email.isNotEmpty && !state.validEmail
+                ? "Invalid Email"
+                : null,
+          ),
         ),
       ].addBetween(const SizedBox(height: 12)),
     );
@@ -86,9 +87,9 @@ class _RegisterViewState extends State<RegisterView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Password',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleMedium,
         ),
         TextField(
           controller: cubit.password,
@@ -120,7 +121,6 @@ class _RegisterViewState extends State<RegisterView> {
       children: [
         const Text(
           'Confirmed Password',
-          style: TextStyle(color: Colors.white),
         ),
         TextField(
           controller: cubit.confirmPassword,
@@ -149,23 +149,17 @@ class _RegisterViewState extends State<RegisterView> {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-        onPressed: state.matchPassword ? cubit.register : null,
-        style: ButtonStyle(
-          padding: const WidgetStatePropertyAll(
+        onPressed: state.canRegister ? cubit.register : null,
+        style: const ButtonStyle(
+          padding: WidgetStatePropertyAll(
             EdgeInsets.symmetric(
               vertical: 16,
             ),
           ),
-          backgroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.disabled)) {
-              return Colors.grey;
-            }
-            return Color(R.colors.secondary);
-          }),
         ),
-        child: const Text(
+        child: Text(
           'Register',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleLarge,
         ),
       ),
     );
@@ -176,16 +170,11 @@ class _RegisterViewState extends State<RegisterView> {
       child: Text.rich(
         TextSpan(
           text: 'Already have an account? ',
-          style: const TextStyle(
-            color: Colors.white,
-          ),
           children: [
             TextSpan(
               text: ' Login',
-              style: TextStyle(
-                color: Color(R.colors.secondary),
-                fontWeight: FontWeight.bold,
-              ),
+              style: context.textTheme.titleMedium
+                  ?.copyWith(color: context.colorScheme.primary),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   context.push(AppRoute.login);
@@ -203,7 +192,7 @@ class _RegisterViewState extends State<RegisterView> {
         children: <Widget>[
           Text(
             name,
-            style: const TextStyle(color: Colors.white),
+            style: context.textTheme.titleMedium,
           ),
           valid
               ? const Icon(

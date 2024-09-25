@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/constant/status.k.dart';
 import 'package:skeleton/resources/resources.dart';
+import 'package:skeleton/services/shared_preference.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/login/login.cubit.dart';
 import 'package:skeleton/ui/view/login/login.state.dart';
 import 'package:skeleton/ui/widget/app_logo.dart';
 import 'package:skeleton/ui/widget/image_view.dart';
+import 'package:skeleton/utils/extension/build_context.dart';
 import 'package:skeleton/utils/extension/list.ext.dart';
 
 class LoginView extends StatefulWidget {
@@ -26,7 +28,6 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(R.colors.primary),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: BlocConsumer<LoginCubit, LoginState>(
@@ -38,13 +39,17 @@ class _LoginViewState extends State<LoginView> {
                 _buildHeader(),
                 _buildEmail(),
                 _buildPassword(),
-                _buildButton(),
+                _buildButton(state),
                 _buildSignUp()
               ].addBetween(const SizedBox(height: 24)),
             );
           },
           listener: (_, state) {
             if (state.status == Status.loaded) {
+              Application().sharedPreferences.setBool(
+                    'hasLoggedIn',
+                    true,
+                  );
               context.go(AppRoute.home);
             }
           },
@@ -57,21 +62,18 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _buildLogo() => const AppLogo();
 
-  Widget _buildHeader() => const Text(
+  Widget _buildHeader() => Text(
         'Login to your Account',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
+        style: context.textTheme.titleLarge,
       );
 
   Widget _buildEmail() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Email',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleMedium,
         ),
         TextField(
           controller: cubit.email,
@@ -84,9 +86,9 @@ class _LoginViewState extends State<LoginView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Password',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleMedium,
         ),
         TextField(
           controller: cubit.password,
@@ -111,22 +113,14 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _buildButton() {
+  Widget _buildButton(LoginState state) {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-        onPressed: cubit.login,
-        style: ButtonStyle(
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(vertical: 16),
-          ),
-          backgroundColor: WidgetStatePropertyAll(
-            Color(R.colors.secondary),
-          ),
-        ),
-        child: const Text(
+        onPressed: state.canLogin ? cubit.login : null,
+        child:  Text(
           'Login',
-          style: TextStyle(color: Colors.white),
+          style: context.textTheme.titleLarge,
         ),
       ),
     );
@@ -137,15 +131,11 @@ class _LoginViewState extends State<LoginView> {
       child: Text.rich(
         TextSpan(
           text: 'Not a member? ',
-          style: const TextStyle(
-            color: Colors.white,
-          ),
           children: [
             TextSpan(
               text: ' Register',
-              style: TextStyle(
-                color: Color(R.colors.secondary),
-                fontWeight: FontWeight.bold,
+              style: context.textTheme.titleMedium?.copyWith(
+                color: context.colorScheme.primary
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
@@ -185,7 +175,7 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color(R.colors.primary),
+      backgroundColor: context.colorScheme.errorContainer,
       icon: ImageView.asset(
         R.vectors.error,
         width: 64,
@@ -193,19 +183,12 @@ class ErrorDialog extends StatelessWidget {
       ),
       title: Text(
         message,
-        style: const TextStyle(fontSize: 16),
       ),
       actions: [
         FilledButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Color(R.colors.secondary),
-            ),
-          ),
           onPressed: context.pop,
           child: const Text(
             'Close',
-            style: TextStyle(color: Colors.white),
           ),
         ),
       ],

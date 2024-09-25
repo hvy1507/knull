@@ -11,4 +11,6 @@ class LoginState with _$LoginState {
     @Default('') String password,
     @Default('') String message,
   }) = _LoginState;
+  const LoginState._();
+  bool get canLogin => email.isNotEmpty && password.isNotEmpty;
 }

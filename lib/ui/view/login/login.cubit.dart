@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:skeleton/constant/status.k.dart';
-import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/ui/view/login/login.state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -35,15 +34,13 @@ class LoginCubit extends Cubit<LoginState> {
         email: email.text,
         password: password.text,
       );
-
       emit(state.copyWith(
         status: Status.loaded,
       ));
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(
         msg: e.message.toString(),
-        backgroundColor: Color(R.colors.secondary),
-        textColor: Colors.white,
+        backgroundColor: Colors.red,
       );
       emit(state.copyWith(
         status: Status.idle,

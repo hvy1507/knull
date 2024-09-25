@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:skeleton/constant/password_validation.dart';
 import 'package:skeleton/constant/status.k.dart';
-import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/ui/view/register/register.state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
@@ -68,8 +66,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(
         msg: e.message.toString(),
-        backgroundColor: Color(R.colors.secondary),
-        textColor: Colors.white,
+        backgroundColor: Colors.red,
       );
       emit(
         state.copyWith(

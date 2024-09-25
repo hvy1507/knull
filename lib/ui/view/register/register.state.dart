@@ -16,9 +16,12 @@ class RegisterState with _$RegisterState {
 
   const RegisterState._();
 
-  bool get matchPassword => password == confirmedPassword && confirmedPassword.isNotEmpty;
+  bool get matchPassword =>
+      password == confirmedPassword && confirmedPassword.isNotEmpty;
 
-  static bool onChanged(RegisterState prev, RegisterState curr) {
-    return prev.status != curr.status;
+  bool get validEmail {
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return regex.hasMatch(email);
   }
+  bool get canRegister => matchPassword && validEmail;
 }

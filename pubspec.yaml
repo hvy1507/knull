@@ -49,6 +49,7 @@ dependencies:
   firebase_core: ^3.5.0
   firebase_auth: ^5.3.0
   fluttertoast: ^8.2.8
+  curved_navigation_bar: ^1.0.6
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/colors/
     - assets/fonts/
     - assets/vectors/
   fonts:

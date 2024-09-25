@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/resources/resources.dart';
+import 'package:skeleton/services/shared_preference.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/widget/image_view.dart';
+import 'package:skeleton/utils/extension/build_context.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -22,8 +24,12 @@ class _SplashViewState extends State<SplashView> {
         _isAnimated = true;
       });
       Future.delayed(const Duration(seconds: 3), () {
-        if (mounted){
-          context.go(AppRoute.login);
+        if (mounted) {
+          if (Application().sharedPreferences.getBool('hasLoggedIn') ?? false) {
+            context.go(AppRoute.login);
+          } else {
+            context.go(AppRoute.login);
+          }
         }
       });
     });
@@ -41,7 +47,6 @@ class _SplashViewState extends State<SplashView> {
     final totalWidth = logoSize + (shortestSide * 0.05) + textWidth;
 
     return Scaffold(
-      backgroundColor: Color(R.colors.primary),
       body: Stack(
         children: [
           AnimatedPositioned(
@@ -69,9 +74,7 @@ class _SplashViewState extends State<SplashView> {
                 : screenSize.width,
             child: Text(
               'KNULL',
-              style: TextStyle(
-                fontSize: fontSize,
-                color: Colors.grey,
+              style: context.textTheme.displayLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
