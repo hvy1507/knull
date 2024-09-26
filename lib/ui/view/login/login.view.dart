@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/constant/status.k.dart';
-import 'package:skeleton/resources/resources.dart';
-import 'package:skeleton/services/shared_preference.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/login/login.cubit.dart';
 import 'package:skeleton/ui/view/login/login.state.dart';
 import 'package:skeleton/ui/widget/app_logo.dart';
-import 'package:skeleton/ui/widget/image_view.dart';
 import 'package:skeleton/utils/extension/build_context.dart';
 import 'package:skeleton/utils/extension/list.ext.dart';
 
@@ -46,10 +43,10 @@ class _LoginViewState extends State<LoginView> {
           },
           listener: (_, state) {
             if (state.status == Status.loaded) {
-              Application().sharedPreferences.setBool(
-                    'hasLoggedIn',
-                    true,
-                  );
+              // Application().sharedPreferences.setBool(
+              //       'hasLoggedIn',
+              //       true,
+              //     );
               context.go(AppRoute.home);
             }
           },
@@ -118,9 +115,12 @@ class _LoginViewState extends State<LoginView> {
       width: double.infinity,
       child: FilledButton(
         onPressed: state.canLogin ? cubit.login : null,
-        child:  Text(
+        child: Text(
           'Login',
-          style: context.textTheme.titleLarge,
+          style: context.textTheme.titleLarge?.copyWith(
+              color: state.canLogin
+                  ? context.colorScheme.primary
+                  : context.colorScheme.onPrimary),
         ),
       ),
     );
@@ -134,9 +134,8 @@ class _LoginViewState extends State<LoginView> {
           children: [
             TextSpan(
               text: ' Register',
-              style: context.textTheme.titleMedium?.copyWith(
-                color: context.colorScheme.primary
-              ),
+              style: context.textTheme.titleMedium
+                  ?.copyWith(color: context.colorScheme.tertiary),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   context.push(AppRoute.register);
@@ -145,53 +144,6 @@ class _LoginViewState extends State<LoginView> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class ErrorDialog extends StatelessWidget {
-  const ErrorDialog({
-    super.key,
-    required this.message,
-  });
-
-  final String message;
-
-  static Future<void> show(
-    BuildContext context, {
-    required String message,
-  }) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return ErrorDialog(
-          message: message,
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: context.colorScheme.errorContainer,
-      icon: ImageView.asset(
-        R.vectors.error,
-        width: 64,
-        height: 64,
-      ),
-      title: Text(
-        message,
-      ),
-      actions: [
-        FilledButton(
-          onPressed: context.pop,
-          child: const Text(
-            'Close',
-          ),
-        ),
-      ],
     );
   }
 }

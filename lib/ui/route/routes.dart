@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:skeleton/ui/home/home.view.dart';
 import 'package:skeleton/ui/view/account/account.view.dart';
+import 'package:skeleton/ui/view/add/add.view.dart';
 import 'package:skeleton/ui/view/dictionary/dictionary.view.dart';
+import 'package:skeleton/ui/view/gemini/gemini.cubit.dart';
+import 'package:skeleton/ui/view/gemini/gemini.view.dart';
+import 'package:skeleton/ui/view/home/home.view.dart';
 import 'package:skeleton/ui/view/login/login.cubit.dart';
 import 'package:skeleton/ui/view/login/login.view.dart';
 import 'package:skeleton/ui/view/navigation/main_navigation.view.dart';
@@ -21,6 +24,8 @@ class AppRoute {
   static const String home = '/home';
   static const String dictionary = '/dictionary';
   static const String account = '/account';
+  static const String add = '/add';
+  static const String gemini = '/gemini';
 
   static const _rootNavKey = GlobalObjectKey<NavigatorState>('root');
   static const _mainNavKey = GlobalObjectKey<NavigatorState>('main');
@@ -71,6 +76,44 @@ class AppRoute {
               return CustomTransitionPage(
                 key: state.pageKey,
                 child: const DictionaryView(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurveTween(curve: Curves.bounceInOut)
+                        .animate(animation),
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+          GoRoute(
+            parentNavigatorKey: _mainNavKey,
+            path: add,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const AddView(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurveTween(curve: Curves.bounceInOut)
+                        .animate(animation),
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+          GoRoute(
+            parentNavigatorKey: _mainNavKey,
+            path: gemini,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: BlocProvider(create: (context) {
+                  return GeminiCubit();
+                }, child: const GeminiView()),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

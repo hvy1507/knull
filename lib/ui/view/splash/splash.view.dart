@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/resources/resources.dart';
-import 'package:skeleton/services/shared_preference.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/widget/image_view.dart';
 import 'package:skeleton/utils/extension/build_context.dart';
@@ -24,13 +23,7 @@ class _SplashViewState extends State<SplashView> {
         _isAnimated = true;
       });
       Future.delayed(const Duration(seconds: 3), () {
-        if (mounted) {
-          if (Application().sharedPreferences.getBool('hasLoggedIn') ?? false) {
-            context.go(AppRoute.login);
-          } else {
-            context.go(AppRoute.login);
-          }
-        }
+        context.go(AppRoute.login);
       });
     });
   }

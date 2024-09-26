@@ -10,6 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
+  // await dotenv.load(fileName: ".env");
   AppDependency().initiate();
   Application();
   runApp(const MainApp());

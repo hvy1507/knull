@@ -159,7 +159,10 @@ class _RegisterViewState extends State<RegisterView> {
         ),
         child: Text(
           'Register',
-          style: context.textTheme.titleLarge,
+          style: context.textTheme.titleLarge?.copyWith(
+              color: state.canRegister ? context.colorScheme.primary :context.colorScheme.onPrimary
+
+          ),
         ),
       ),
     );
@@ -174,7 +177,7 @@ class _RegisterViewState extends State<RegisterView> {
             TextSpan(
               text: ' Login',
               style: context.textTheme.titleMedium
-                  ?.copyWith(color: context.colorScheme.primary),
+                  ?.copyWith(color: context.colorScheme.tertiary),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   context.push(AppRoute.login);
