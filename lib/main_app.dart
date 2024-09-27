@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton/constant/theme.ext.dart';
@@ -19,6 +20,9 @@ class MainApp extends StatelessWidget {
           return MaterialApp.router(
             title: 'Skeleton',
             routerConfig: AppRoute.configurations,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             theme: state.themeMode == Mode.light
                 ? Light().getTheme()
                 : Dark().getTheme(),

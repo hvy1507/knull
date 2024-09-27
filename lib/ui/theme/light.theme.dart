@@ -11,7 +11,7 @@ class Light extends BaseTheme {
         onPrimary: Colors.black,
         secondary: Colors.white,
         tertiary: const Color(0xFF47215c),
-        onTertiary: Color(0xFFefc8ff),
+        onTertiary: const Color(0xFFefc8ff),
         error: Colors.red,
         seedColor: Colors.white,
       );

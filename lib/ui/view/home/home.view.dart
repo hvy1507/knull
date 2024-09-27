@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeleton/constant/theme.ext.dart';
-import 'package:skeleton/resources/resources.dart';
+
 import 'package:skeleton/ui/theme/theme.cubit.dart';
-import 'package:skeleton/ui/theme/theme.state.dart';
-import 'package:skeleton/ui/widget/clickable.dart';
-import 'package:skeleton/ui/widget/image_view.dart';
+import 'package:skeleton/ui/view/account/account.view.dart';
+import 'package:skeleton/utils/extension/build_context.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -21,43 +19,19 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      builder: (_, state) => Scaffold(
-        appBar: _buildAppBar(state),
-        body: _buildBody(),
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
-  AppBar _buildAppBar(ThemeState state) {
+  AppBar _buildAppBar() {
     return AppBar(
+      backgroundColor: context.colorScheme.onTertiary,
       centerTitle: true,
       title: const Text(
         'Skeleton',
       ),
-      actions: [
-        Container(
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.only(right: 30),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Clickable(
-            onTap: cubit.toggle,
-            child: state.themeMode == Mode.light
-                ? ImageView.asset(
-                    R.vectors.dark,
-                    width: 30,
-                    height: 30,
-                  )
-                : ImageView.asset(
-                    R.vectors.light,
-                    width: 30,
-                    height: 30,
-                  ),
-          ),
-        ),
-      ],
     );
   }
 

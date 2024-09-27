@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/constant/status.k.dart';
+import 'package:skeleton/main.dart';
+import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/login/login.cubit.dart';
 import 'package:skeleton/ui/view/login/login.state.dart';
@@ -60,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _buildLogo() => const AppLogo();
 
   Widget _buildHeader() => Text(
-        'Login to your Account',
+        R.strings.login_to_account.tr(),
         style: context.textTheme.titleLarge,
       );
 
@@ -69,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Email',
+          R.strings.email.tr(),
           style: context.textTheme.titleMedium,
         ),
         TextField(
@@ -84,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Password',
+          R.strings.password.tr(),
           style: context.textTheme.titleMedium,
         ),
         TextField(
@@ -116,7 +119,7 @@ class _LoginViewState extends State<LoginView> {
       child: FilledButton(
         onPressed: state.canLogin ? cubit.login : null,
         child: Text(
-          'Login',
+          R.strings.login.tr(),
           style: context.textTheme.titleLarge?.copyWith(
               color: state.canLogin
                   ? context.colorScheme.primary
@@ -130,10 +133,10 @@ class _LoginViewState extends State<LoginView> {
     return Center(
       child: Text.rich(
         TextSpan(
-          text: 'Not a member? ',
+          text:  R.strings.not_a_member.tr(),
           children: [
             TextSpan(
-              text: ' Register',
+              text:  R.strings.register.tr(),
               style: context.textTheme.titleMedium
                   ?.copyWith(color: context.colorScheme.tertiary),
               recognizer: TapGestureRecognizer()

@@ -13,5 +13,13 @@ void main() async {
   // await dotenv.load(fileName: ".env");
   AppDependency().initiate();
   Application();
-  runApp(const MainApp());
+  runApp(EasyLocalization(
+    supportedLocales: const [
+      Locale('vi', 'VN'),
+      Locale('en', 'US'),
+    ],
+    fallbackLocale: const Locale('en', 'US'),
+    path: 'assets/translations',
+    child: const MainApp(),
+  ),);
 }

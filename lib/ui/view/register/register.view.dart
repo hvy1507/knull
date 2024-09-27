@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeleton/constant/password_validation.dart';
 import 'package:skeleton/constant/status.k.dart';
+import 'package:skeleton/resources/resources.dart';
 import 'package:skeleton/ui/route/routes.dart';
 import 'package:skeleton/ui/view/register/register.cubit.dart';
 import 'package:skeleton/ui/view/register/register.state.dart';
@@ -59,7 +61,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildLogo() => const AppLogo();
 
   Widget _buildHeader() => Text(
-        'Create a new account',
+        R.strings.create_account.tr(),
         style: context.textTheme.titleLarge,
       );
 
@@ -68,14 +70,14 @@ class _RegisterViewState extends State<RegisterView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Email',
+          R.strings.email.tr(),
           style: context.textTheme.titleMedium,
         ),
         TextField(
           controller: cubit.email,
           decoration: InputDecoration(
             errorText: state.email.isNotEmpty && !state.validEmail
-                ? "Invalid Email"
+                ? R.strings.invalid_email.tr()
                 : null,
           ),
         ),
@@ -88,7 +90,7 @@ class _RegisterViewState extends State<RegisterView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Password',
+          R.strings.password.tr(),
           style: context.textTheme.titleMedium,
         ),
         TextField(
@@ -119,8 +121,8 @@ class _RegisterViewState extends State<RegisterView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Confirmed Password',
+        Text(
+          R.strings.confirmed_password.tr(),
         ),
         TextField(
           controller: cubit.confirmPassword,
@@ -158,11 +160,11 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
         child: Text(
-          'Register',
+          R.strings.register.tr(),
           style: context.textTheme.titleLarge?.copyWith(
-              color: state.canRegister ? context.colorScheme.primary :context.colorScheme.onPrimary
-
-          ),
+              color: state.canRegister
+                  ? context.colorScheme.primary
+                  : context.colorScheme.onPrimary),
         ),
       ),
     );
@@ -172,10 +174,10 @@ class _RegisterViewState extends State<RegisterView> {
     return Center(
       child: Text.rich(
         TextSpan(
-          text: 'Already have an account? ',
+          text: R.strings.already_have_an_account.tr(),
           children: [
             TextSpan(
-              text: ' Login',
+              text: R.strings.login.tr(),
               style: context.textTheme.titleMedium
                   ?.copyWith(color: context.colorScheme.tertiary),
               recognizer: TapGestureRecognizer()
@@ -212,15 +214,15 @@ class _RegisterViewState extends State<RegisterView> {
 
     return Column(
       children: [
-        buildValidationString('Length >= 8',
+        buildValidationString(R.strings.length.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
                 .contains(PasswordValidation.length)),
-        buildValidationString('Contain character ',
+        buildValidationString(R.strings.character.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
                 .contains(PasswordValidation.character)),
-        buildValidationString('Contain special character ',
+        buildValidationString(R.strings.special_character.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
                 .contains(PasswordValidation.specialCharacter)),

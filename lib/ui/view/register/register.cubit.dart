@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,10 +52,20 @@ class RegisterCubit extends Cubit<RegisterState> {
   Future<void> register() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     try {
+      final UserCredential userCredential =
       await auth.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
+      User? user = userCredential.user;
+
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('olala').doc(user.uid).set({
+          'email': email.text,
+          'uid': user.uid,
+        });
+      };
+
       Fluttertoast.showToast(
         msg: 'Register successfully!',
         backgroundColor: Colors.green,
@@ -92,4 +103,3 @@ class RegisterCubit extends Cubit<RegisterState> {
     return result;
   }
 }
-

@@ -1,0 +1,20 @@
+{
+  "login_to_account": "Login to account",
+  "email": "Email",
+  "password": "Password",
+  "confirmed_password": "Confirmed Password",
+  "login": "Login",
+  "not_a_member": "Not a member?",
+  "register": "Register",
+  "create_account": "Create a new account",
+  "length": "Length >= 8",
+  "character": "Contain character",
+  "special_character": "Contain special character",
+  "already_have_an_account": "Already have an account?",
+  "language": "Language",
+  "dark_mode": "Dark mode",
+  "light_mode": "Light mode",
+  "vietnamese": "Vietnamese",
+  "english": "English",
+  "invalid_email": "Invalid email"
+}

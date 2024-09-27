@@ -1,0 +1,20 @@
+{
+  "login_to_account": "Đăng nhập vào tài khoản",
+  "email": "Email",
+  "password": "Mật khẩu",
+  "confirm_password": "Xác nhận mật khẩu",
+  "login": "Đăng nhập",
+  "not_a_member": "Chưa là thành viên?",
+  "register": "Đăng ký",
+  "create_account": "Tạo tài khoản mới",
+  "length": "Độ dài >= 8",
+  "character": "Chứa ký tự",
+  "special_character": "Chứa ký tự đặc biệt",
+  "already_have_an_account": "Đã có tài khoản?",
+  "language": "Ngôn ngữ",
+  "dark_mode": "Chế độ tối",
+  "light_mode": "Chế độ sáng",
+  "vietnamese": "Tiếng Việt",
+  "english": "Tiếng Anh",
+  "invalid_email": "Email không hợp lệ"
+}
