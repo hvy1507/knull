@@ -1,7 +1,7 @@
 # KNULL
 
-A project about ... written by me , applied my knowledge and best practice
-Named it KNULL because it's dark and the concept of the app is not clear
+**A project about ... written by me , applied my knowledge and best practice
+**Named it KNULL because it's dark and the concept of the app is not clear
 
 # Features
 
