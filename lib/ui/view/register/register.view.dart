@@ -12,6 +12,8 @@ import 'package:skeleton/ui/view/register/register.state.dart';
 import 'package:skeleton/ui/widget/app_logo.dart';
 import 'package:skeleton/utils/extension/build_context.dart';
 import 'package:skeleton/utils/extension/list.ext.dart';
+import 'package:skeleton/utils/helper/validation.dart';
+import 'package:skeleton/utils/helper/validator.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -25,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
   bool _isVisible2 = false;
 
   RegisterCubit get cubit => context.read<RegisterCubit>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,7 @@ class _RegisterViewState extends State<RegisterView> {
                 _buildSpace(),
                 _buildLogo(),
                 _buildHeader(),
+                // _buildForm(),
                 _buildEmail(state),
                 _buildPassword(),
                 if (state.isValid) _buildConfirmedPassword(),
@@ -53,6 +57,69 @@ class _RegisterViewState extends State<RegisterView> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildForm() {
+    Widget buildStructure(String title, Widget child) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          title,
+          style: context.textTheme.titleMedium,
+        ),
+        child
+      ]);
+    }
+
+    return Column(
+      children: [
+        buildStructure(
+          R.strings.email.tr(),
+          TextFormField(
+            controller: cubit.email,
+            validator: Validator.apply(
+              context,
+              const [
+                RequiredValidation(),
+                EmailValidation(),
+              ],
+            ),
+          ),
+        ),
+        buildStructure(
+          R.strings.password.tr(),
+          TextFormField(
+            controller: cubit.password,
+            validator: Validator.apply(
+              context,
+               [
+                const RequiredValidation(),
+                const PasswordValidation(
+                  minLength: 8,
+                  number: true,
+                  upperCase: false,
+                  specialChar: true,
+                )
+              ],
+            ),
+          ),
+        ),
+        buildStructure(
+          R.strings.email.tr(),
+          TextFormField(
+            controller: cubit.confirmPassword,
+            validator: Validator.apply(
+              context,
+               [
+                const RequiredValidation(),
+                 ConfirmedPasswordValidation(
+                  password: cubit.password.text
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -217,15 +284,15 @@ class _RegisterViewState extends State<RegisterView> {
         buildValidationString(R.strings.length.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
-                .contains(PasswordValidation.length)),
+                .contains(ValidatePassword.length)),
         buildValidationString(R.strings.character.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
-                .contains(PasswordValidation.character)),
+                .contains(ValidatePassword.character)),
         buildValidationString(R.strings.special_character.tr(),
             valid: cubit
                 .validPassword(cubit.password.text)
-                .contains(PasswordValidation.specialCharacter)),
+                .contains(ValidatePassword.specialCharacter)),
       ].addBetween(const SizedBox(height: 16)),
     );
   }

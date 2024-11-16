@@ -21,11 +21,11 @@ class Dark extends BaseTheme {
 
   @override
   FilledButtonThemeData get filledButtonTheme =>
-      Factory.instance.getGlobal(Global.filled, colorScheme);
+      Factory().getGlobal(Global.filled, colorScheme);
 
   @override
   InputDecorationTheme get inputDecorationTheme =>
-      Factory.instance.getGlobal(Global.input, colorScheme);
+      Factory().getGlobal(Global.input, colorScheme);
 
   @override
   TextSelectionThemeData get textSelectorThemeData =>
@@ -33,16 +33,6 @@ class Dark extends BaseTheme {
 
   @override
   TextTheme get textTheme =>
-      Factory.instance.getGlobal(Global.text, colorScheme);
+      Factory().getGlobal(Global.text, colorScheme);
 
-  @override
-  ThemeData get theme => ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: colorScheme.primary,
-        colorScheme: colorScheme,
-        textTheme: textTheme,
-        inputDecorationTheme: inputDecorationTheme,
-        textSelectionTheme: textSelectorThemeData,
-        filledButtonTheme: filledButtonTheme,
-      );
 }

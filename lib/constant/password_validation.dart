@@ -1,4 +1,4 @@
-enum PasswordValidation {
+enum ValidatePassword {
   length,
   character,
   specialCharacter,

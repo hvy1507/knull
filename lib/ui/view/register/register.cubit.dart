@@ -36,9 +36,9 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void check(String value) {
     final result = validPassword(value);
-    if (result.contains(PasswordValidation.length) &&
-        result.contains(PasswordValidation.specialCharacter) &&
-        result.contains(PasswordValidation.character)) {
+    if (result.contains(ValidatePassword.length) &&
+        result.contains(ValidatePassword.specialCharacter) &&
+        result.contains(ValidatePassword.character)) {
       emit(state.copyWith(
         isValid: true,
       ));
@@ -87,18 +87,18 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
   }
 
-  Set<PasswordValidation> validPassword(String password) {
-    final result = <PasswordValidation>{};
+  Set<ValidatePassword> validPassword(String password) {
+    final result = <ValidatePassword>{};
     if (password.length >= 8) {
-      result.add(PasswordValidation.length);
+      result.add(ValidatePassword.length);
     }
     if (password.contains(RegExp('[a-z]')) ||
         password.contains(RegExp('[A-Z]'))) {
-      result.add(PasswordValidation.character);
+      result.add(ValidatePassword.character);
     }
     if (password.contains(RegExp('[0-9]')) &&
         password.contains(RegExp(r'[,.!@#$%&*\-_]'))) {
-      result.add(PasswordValidation.specialCharacter);
+      result.add(ValidatePassword.specialCharacter);
     }
     return result;
   }
